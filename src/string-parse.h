@@ -14,6 +14,8 @@ typedef struct token {
 } token;
 
 /*
+Reads string starting from start and writes token information to t
+
 Return status
 0   Success
 1   End of string reached

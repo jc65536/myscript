@@ -26,7 +26,10 @@ int main(int argc, char **argv) {
         printf("LINE: <%s>\n", line);
         char *it = line;
         while (read_token(it, &t) == 0) {
-            printf("  TOKEN: type %d <%s>\n", t.type, t.begin);
+
+            switch (t.type) {
+            }
+
             it = t.end;
         }
     }

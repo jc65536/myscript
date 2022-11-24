@@ -2,9 +2,15 @@
 
 make
 
-tests=$(find tests -type f | ([[ -n $1 ]] && grep "$1" || cat))
-
-for test in "$tests"; do
-    echo "==== Running on $test ===="
-    build/myscript "$test"
-done
+if [[ -n $1 ]]; then
+    [[ $1 != all ]] && pat=$1
+    tests=$(find tests | grep "$pat")
+    echo $tests $pat
+    for test in $tests; do
+        echo "==== Running on $test ===="
+        build/myscript "$test"
+    done
+else
+    echo "==== Running on stdin ===="
+    build/myscript
+fi

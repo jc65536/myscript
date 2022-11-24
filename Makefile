@@ -1,14 +1,21 @@
-HEADERS = $(wildcard src/*.h)
-SOURCES = $(wildcard src/*.c)
-OBJECTS = $(patsubst src/%.c, build/%.o, $(SOURCES))
-OPTIONS = -std=c11 -Wall -g
+CC = gcc
+CFLAGS = -std=c11 -Wall -g
 
-build/%.o: src/%.c $(HEADERS)
-	gcc $(OPTIONS) -o $@ -c $<
+src_dir = src
+build_dir = build
+headers = $(wildcard $(src_dir)/*.h)
+sources = $(wildcard $(src_dir)/*.c)
+objects = $(patsubst $(src_dir)/%.c, $(build_dir)/%.o, $(sources))
 
-build/myscript: $(OBJECTS)
-	gcc $(OPTIONS) -o $@ $^
+$(build_dir)/%.o: $(src_dir)/%.c $(headers)
+	$(CC) -c $(CFLAGS) $(CPPFLAGS) -o $@ -c $<
 
-all: build/myscript
+$(build_dir)/myscript: $(objects)
+	$(CC) $(LDFLAGS) -o $@ $^ $(LOADLIBES) $(LDLIBS)
 
-.PHONY: all
+all: $(build_dir)/myscript
+
+clean:
+	rm -rf $(build_dir)/*
+
+.PHONY: all clean
